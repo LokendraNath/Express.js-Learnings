@@ -19,7 +19,13 @@ const series = [
 ];
 // Get All Posts
 app.get("/api/series", (req, res) => {
-  res.json(series);
+  const userLimit = parseInt(req.query.limit);
+
+  if (!isNaN(userLimit) && userLimit > 0) {
+    res.json(series.slice(0, userLimit));
+  } else {
+    res.json(series);
+  }
 });
 
 // Get Single Posts
