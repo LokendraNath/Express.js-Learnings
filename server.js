@@ -17,8 +17,15 @@ const series = [
   { id: 2, title: "Succession" },
   { id: 3, title: "Breking Bad" },
 ];
+// Get All Posts
 app.get("/api/series", (req, res) => {
   res.json(series);
+});
+
+// Get Single Posts
+app.get("/api/series/:id", (req, res) => {
+  const userId = parseInt(req.params.id);
+  res.json(series.filter((s) => s.id === userId));
 });
 
 /*
