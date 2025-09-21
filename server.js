@@ -22,16 +22,19 @@ app.get("/api/series", (req, res) => {
   const userLimit = parseInt(req.query.limit);
 
   if (!isNaN(userLimit) && userLimit > 0) {
-    res.json(series.slice(0, userLimit));
-  } else {
-    res.json(series);
+    return res.status(200).json(series.slice(0, userLimit));
   }
+  res.status.json(series);
 });
 
 // Get Single Posts
 app.get("/api/series/:id", (req, res) => {
   const userId = parseInt(req.params.id);
-  res.json(series.filter((s) => s.id === userId));
+  const post = series.find((s) => s.id === userId);
+  if (!post) {
+    return res.status(404).json({ message: `A Post is not Found ${userId}` });
+  }
+  res.status(200).json(post);
 });
 
 /*
