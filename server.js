@@ -36,7 +36,8 @@ app.get("/hello", (req, res) => res.send("route hello"));
 //* Errr Handling Middleware
 app.use((err, req, res, next) => {
   console.log(err.stack);
-  res.status(500).json({ message: "Something Went Wrong" });
+  const errorCode = err.statusCode || 500;
+  res.status(errorCode).json({ message: err.message });
 });
 
 //* Port Listining
