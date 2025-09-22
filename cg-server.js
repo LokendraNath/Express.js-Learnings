@@ -1,7 +1,7 @@
 import express from "express";
 const app = express();
 
-// JSON Data pars (Global Middle Ware)
+// Inbuilt Middlware (Global Middle Ware)
 app.use(express.json());
 
 // Custom Middleware (Gloabal Middleware)
@@ -11,17 +11,17 @@ const reqLogger = (req, res, next) => {
   next();
 };
 
-app.use(reqLogger);
-
-app.get("/", (req, res) => res.send("Hello World"));
-
-app.get("/hello", (req, res) => res.send("route hello"));
+//? Pure App me lagane ke liye
+// app.use(reqLogger);
 
 //Post Request
-app.post("/api/users", (req, res) => {
+app.post("/api/users", reqLogger, (req, res) => {
   console.log("body", req.body);
   res.json({});
 });
+
+app.get("/", (req, res) => res.send("Hello World"));
+app.get("/hello", (req, res) => res.send("route hello"));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
