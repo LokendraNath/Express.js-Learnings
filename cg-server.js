@@ -1,7 +1,10 @@
 import express from "express";
+import cors from "cors";
+
 const app = express();
 
 // Inbuilt Middlware (Global Middle Ware)
+app.use(cors());
 app.use(express.json());
 
 // Custom Middleware (Gloabal Middleware)
