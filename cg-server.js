@@ -16,12 +16,20 @@ const reqLogger = (req, res, next) => {
 
 //Post Request
 app.post("/api/users", reqLogger, (req, res) => {
-  console.log("body", req.body);
+  // console.log("body", req.body);
+  throw new Error("Error AA gya bc"); // fake error
   res.json({});
 });
 
 app.get("/", (req, res) => res.send("Hello World"));
 app.get("/hello", (req, res) => res.send("route hello"));
+
+// Errr Handling Middleware
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+
+  res.status(500).json({ message: "Something Went Wrong" });
+});
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
