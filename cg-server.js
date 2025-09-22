@@ -1,7 +1,16 @@
 import express from "express";
 import cors from "cors";
-
+import { connectDB } from "./cg-db.js";
 const app = express();
+
+// Connect Database
+try {
+  connectDB();
+  console.log("Connected To DB");
+} catch (err) {
+  console.error(err);
+  process.exit();
+}
 
 // Inbuilt Middlware (Global Middle Ware)
 app.use(cors());
