@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { connectDB } from "./db.js";
+import { connectDB } from "./src/config/db.js";
 const app = express();
 
 // Connect Database
@@ -28,8 +28,6 @@ const reqLogger = (req, res, next) => {
 
 //Post Request
 app.post("/api/users", reqLogger, (req, res) => {
-  // console.log("body", req.body);
-  throw new Error("Error AA gya bc"); // fake error
   res.json({});
 });
 
