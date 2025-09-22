@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./src/config/db.js";
-import router from "./src/user/user-route.js";
+import userRouter from "./src/user/user-route.js";
 const app = express();
 
 // Connect Database
@@ -25,15 +25,10 @@ const reqLogger = (req, res, next) => {
 };
 
 //? Pure App me lagane ke liye
-// app.use(reqLogger);
+app.use(reqLogger);
 
 // Register Route
-app.use(router);
-
-//Post Request
-app.post("/api/users", reqLogger, (req, res) => {
-  res.json({});
-});
+app.use("/api/users", userRouter); // ager is url me aayega to userRouter me redirect ho jayega
 
 app.get("/", (req, res) => res.send("Hello World"));
 app.get("/hello", (req, res) => res.send("route hello"));
@@ -41,7 +36,6 @@ app.get("/hello", (req, res) => res.send("route hello"));
 // Errr Handling Middleware
 app.use((err, req, res, next) => {
   console.log(err.stack);
-
   res.status(500).json({ message: "Something Went Wrong" });
 });
 
