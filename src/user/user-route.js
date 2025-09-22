@@ -1,29 +1,32 @@
 import { Router } from "express";
-import { User } from "./user-modle.js";
+import { User } from "./user-model.js";
+import { body, validationResult } from "express-validator";
 
 const router = Router();
 
-router.post("/", async (req, res, next) => {
-  const { name, email, password } = req.body;
+router.post(
+  "/",
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 chars"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
-  // Validate Request
-  if (!name || !email || !password) {
-    const error = new Error("All Field are required");
-    error.statusCode = 400;
-    next(error);
-    // res.status(404).json({ msg: "All Feild Required" });
-    return;
+    const { name, email, password } = req.body;
+
+    try {
+      const user = await User.create({ name, email, password });
+      res.status(201).json(user);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   }
-
-  const result = await User.create({
-    name,
-    email,
-    password,
-  });
-
-  console.log(result);
-
-  res.status(201).json({ id: result._id });
-});
+);
 
 export default router;

@@ -1,47 +1,42 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 import { connectDB } from "./src/config/db.js";
 import userRouter from "./src/user/user-route.js";
+
+dotenv.config();
 const app = express();
 
-//* Connect Database
-try {
-  connectDB();
-  console.log("Connected To DB");
-} catch (err) {
-  console.error(err);
-  process.exit();
-}
-
-//* Inbuilt Middlware (Global Middle Ware)
+//* Middleware
 app.use(cors());
 app.use(express.json());
-
-//* Custom Middleware (Gloabal Middleware)
-const reqLogger = (req, res, next) => {
+app.use((req, res, next) => {
   console.log(`${req.method} ${req.url} ${new Date().toISOString()}`);
-  // har req pe chalege -> POST /api/users 2025-09-22T06:15:56.132Z
   next();
-};
+});
 
-app.use(reqLogger);
-
-//* Register Route
+//* Routes
 app.use("/api/users", userRouter);
-
-//* Normal Routes
 app.get("/", (req, res) => res.send("Hello World"));
 app.get("/hello", (req, res) => res.send("route hello"));
 
-//* Errr Handling Middleware
+//* Error handler
 app.use((err, req, res, next) => {
-  console.log(err.stack);
-  const errorCode = err.statusCode || 500;
-  res.status(errorCode).json({ message: err.message });
+  console.error(err.stack);
+  res.status(err.statusCode || 500).json({ message: err.message });
 });
 
-//* Port Listining
+//* Start server after DB connection
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Port Listining on ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log("Connected to DB");
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (err) {
+    console.error("DB connection failed:", err);
+    process.exit(1);
+  }
+};
+
+startServer();
