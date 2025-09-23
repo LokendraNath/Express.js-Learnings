@@ -16,6 +16,11 @@ app.get("/users/:userId/posts/:postId", (req, res) => {
   });
 });
 
+//* Catch-All Invalid Routes
+app.get((req, res) => {
+  res.send("Sorry, this is invalid URL");
+});
+
 app.listen(PORT, () => {
   console.log(`Listining on Port ${PORT}`);
 });
