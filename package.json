@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "dev": "node --watch --env-file=.env server"
+    "dev": "nodemon --watch --env-file=.env server"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,8 @@
     "express-validator": "^7.2.1",
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
