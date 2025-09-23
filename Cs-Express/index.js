@@ -1,19 +1,15 @@
 import express from "express";
+import { userLogin, userSignup } from "./controller.js";
 const app = express();
-
-//? Controllers
-import { searchController, userNameController } from "./controller.js";
 
 // Simple Route
 app.get("/", (req, res) => {
   res.send("hello");
 });
 
-// Dynamic Routes
-app.get("/user/:userid", userNameController);
-
-// Query => /search?keyword=something
-app.get("/search", searchController);
+// Authenticate Route
+app.get("/user/login", userLogin);
+app.get("/user/signup", userSignup);
 
 const PORT = 8000;
 
