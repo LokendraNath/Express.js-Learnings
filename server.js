@@ -22,8 +22,9 @@ app.get("/hello", (req, res) => res.send("route hello"));
 
 //* Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.statusCode || 500).json({ message: err.message });
+  res
+    .status(err.statusCode || 500)
+    .json({ status: "error", message: err.message });
 });
 
 //* Start server after DB connection
