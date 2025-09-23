@@ -20,14 +20,12 @@ app.post("/users", (req, res) => {
 });
 
 //* Create Put Method
-
 // Dummy data
 const dummyUsers = [
   { id: 1, name: "Hritik" },
   { id: 2, name: "Rohit" },
   { id: 1, name: "Ronalod" },
 ];
-
 app.put("/users/:id", (req, res) => {
   const userId = req.params.id;
   const { name } = req.body;
@@ -38,6 +36,14 @@ app.put("/users/:id", (req, res) => {
 
   user.name = name;
   res.send(name);
+});
+
+//* Create Delete Method
+app.delete("/users/:id", (req, res) => {
+  const userId = req.params.id;
+  res.send({
+    message: `User ${userId} Deleted Successfully`,
+  });
 });
 
 const PORT = 8000;
