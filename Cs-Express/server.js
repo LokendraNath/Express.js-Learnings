@@ -10,12 +10,15 @@ app.get("/", (req, res) => {
 // jab bhi koi request /user se start hogi, usko us router file me bhej do.
 app.use("/user", router);
 
-// Authenticate Route
-app.get("/user/login", userLogin);
-app.get("/user/signup", userSignup);
+// Create Post Route
+app.post("/users", express.json(), (req, res) => {
+  const { name, email } = req.body;
+  res.json({
+    message: `Welcome ${name} , your email is ${email}`,
+  });
+});
 
 const PORT = 8000;
-
 app.listen(PORT, () => {
   console.log(`Listining on Port ${PORT}`);
 });
