@@ -8,10 +8,11 @@ app.get("/", (req, res) => {
 });
 
 //* jab bhi koi request /user se start hogi, usko us router file me bhej do.
+app.use(express.json());
 app.use("/user", router);
 
 //* Create Post Route
-app.post("/users", express.json(), (req, res) => {
+app.post("/users", (req, res) => {
   const { name, email } = req.body;
   res.json({
     message: `Welcome ${name} , your email is ${email}`,
@@ -27,7 +28,7 @@ const dummyUsers = [
   { id: 1, name: "Ronalod" },
 ];
 
-app.put("/users/:id", express.json(), (req, res) => {
+app.put("/users/:id", (req, res) => {
   const userId = req.params.id;
   const { name } = req.body;
 
