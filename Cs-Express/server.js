@@ -8,7 +8,7 @@ app.use(cookieParser());
 
 //* Simple Route
 app.get("/", (req, res) => {
-  res.cookie("appName", "vs-code");
+  res.cookie("appName", "vs-code", { maxAge: 360000 });
   res.send("Hello");
 });
 
