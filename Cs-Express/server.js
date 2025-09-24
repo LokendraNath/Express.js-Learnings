@@ -28,8 +28,7 @@ app.post("/user", async (req, res) => {
 app.put("/user", async (req, res) => {
   const { id } = req.body;
   // const matchUser = await User.find({ email, name });
-  const matchUser = await User.findById(id);
-  matchUser.name = "Jhandu Bam"; //update
+  const matchUser = await User.findByIdAndUpdate(id, { age: "69" });
   await matchUser.save();
 
   console.log(matchUser);
