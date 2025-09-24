@@ -35,6 +35,13 @@ app.put("/user", async (req, res) => {
   res.send("User Update Successfully");
 });
 
+//* Delete Data in MongoDB =>  DELETE Method
+app.delete("/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+  await User.findByIdAndDelete(userId);
+  res.send("User Deleted");
+});
+
 await connectDB().then(() => {
   app.listen(PORT, () => console.log(`Listining on Port ${PORT}`));
 });
