@@ -13,15 +13,19 @@ app.get("/", (req, res) => {
 
 //* Saving Data in MongoDB => Post Method
 app.post("/user", async (req, res) => {
-  const { name, email, age } = req.body;
-  const newUser = new User({
-    name,
-    age,
-    email,
-  });
-  await newUser.save();
-  console.log(newUser);
-  res.send("User Added Successfully");
+  try {
+    const { name, email, age } = req.body;
+    const newUser = new User({
+      name,
+      age,
+      email,
+    });
+    await newUser.save();
+    console.log(newUser);
+    res.send("User Added Successfully");
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 //* Update Data in MongoDB =>  PUT Method
