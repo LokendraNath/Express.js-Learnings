@@ -12,5 +12,11 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
+//* Get Data From Cookie
+app.get("/fetch", (req, res) => {
+  console.log(req.cookies);
+  res.send("Api Called");
+});
+
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Listining on Port ${PORT}`));
