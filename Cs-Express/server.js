@@ -29,6 +29,9 @@ app.put("/user", async (req, res) => {
   const { id } = req.body;
   // const matchUser = await User.find({ email, name });
   const matchUser = await User.findById(id);
+  matchUser.name = "Jhandu Bam"; //update
+  await matchUser.save();
+
   console.log(matchUser);
   res.send("User Update Successfully");
 });
