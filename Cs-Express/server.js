@@ -1,11 +1,16 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 
 const app = express();
-const PORT = 8000;
+
+//* Middleware
+app.use(cookieParser());
 
 //* Simple Route
 app.get("/", (req, res) => {
+  res.cookie("appName", "vs-code");
   res.send("Hello");
 });
 
+const PORT = 8000;
 app.listen(PORT, () => console.log(`Listining on Port ${PORT}`));
