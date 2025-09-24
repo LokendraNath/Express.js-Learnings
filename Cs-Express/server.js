@@ -5,7 +5,6 @@ import { User } from "./models/User.js";
 const app = express();
 app.use(express.json());
 const PORT = 8000;
-await connectDB();
 
 //* Simple Route
 app.get("/", (req, res) => {
@@ -27,12 +26,13 @@ app.post("/user", async (req, res) => {
 
 //* Update Data in MongoDB =>  PUT Method
 app.put("/user", async (req, res) => {
-  const { email, name } = req.body;
-  const matchUser = User.find({ email, name });
+  const { id } = req.body;
+  // const matchUser = await User.find({ email, name });
+  const matchUser = await User.findById(id);
   console.log(matchUser);
   res.send("User Update Successfully");
 });
 
-app.listen(PORT, () => {
-  console.log(`Listining on Port ${PORT}`);
+await connectDB().then(() => {
+  app.listen(PORT, () => console.log(`Listining on Port ${PORT}`));
 });
