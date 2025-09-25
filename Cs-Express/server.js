@@ -8,14 +8,7 @@ app.use(cookieParser());
 
 //* Simple Route
 app.get("/", (req, res) => {
-  res.cookie("appName", "vs-code", { maxAge: 360000 });
   res.send("Hello");
-});
-
-//* Get Data From Cookie
-app.get("/fetch", (req, res) => {
-  console.log(req.cookies);
-  res.send("Api Called");
 });
 
 const PORT = 8000;
