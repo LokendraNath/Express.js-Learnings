@@ -6,6 +6,7 @@ const app = express();
 
 //* Middleware
 app.use(cookieParser());
+app.use(express.json());
 app.use(
   session({
     secret: "sample-session",
@@ -19,19 +20,32 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.get("/visit", (req, res) => {
-  if (req.session.page_views) {
-    //* multitime visited
-    req.session.page_views++;
-    res.send(`You Visited this page ${req.session.page_views} times`);
-  } else {
-    req.session.page_views = 1;
-    res.send("Welcome to this page for the first time !");
-  }
+const users = [];
+
+app.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  users.push({
+    username,
+    email,
+    password,
+  });
+  res.send("User Registered");
 });
-app.get("/remove-session", (req, res) => {
-  req.session.destroy();
-  res.send("Session will removed");
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = users.find((u) => u.email === email);
+  if (!user || user.password !== password) {
+    return res.send("You are not authorized");
+  }
+  req.session.user = user;
+  res.send("User Login Successfully");
+});
+app.get("/dashboard", (req, res) => {
+  if (!req.session.user) {
+    return res.send("Unauthorize User");
+  }
+  res.send(`Welcome , ${req.session.user.username}`);
 });
 
 const PORT = 8000;
