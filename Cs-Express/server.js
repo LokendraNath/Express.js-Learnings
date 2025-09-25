@@ -1,19 +1,8 @@
-import cookieParser from "cookie-parser";
 import express from "express";
-import session from "express-session";
-
 const app = express();
 
 //* Middleware
-app.use(cookieParser());
 app.use(express.json());
-app.use(
-  session({
-    secret: "sample-session",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 
 //* Simple Route
 app.get("/", (req, res) => {
@@ -38,15 +27,8 @@ app.post("/login", async (req, res) => {
   if (!user || user.password !== password) {
     return res.send("You are not authorized");
   }
-  req.session.user = user;
-  res.send("User Login Successfully");
 });
-app.get("/dashboard", (req, res) => {
-  if (!req.session.user) {
-    return res.send("Unauthorize User");
-  }
-  res.send(`Welcome , ${req.session.user.username}`);
-});
+app.get("/dashboard", (req, res) => {});
 
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Listining on Port ${PORT}`));
